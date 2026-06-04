@@ -1,73 +1,157 @@
-# React + TypeScript + Vite
+# Guilan LMS (Rahyar)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern Learning Management System (LMS) designed for medical and crisis-learning environments.
 
-Currently, two official plugins are available:
+Built with React, TypeScript, Vite, Firebase, and Tailwind CSS.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Authentication
 
-## Expanding the ESLint configuration
+* User Registration
+* User Login
+* Role-Based Access Control
+* Protected Routes
+* Firebase Authentication
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Student Panel
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+* View Assigned Topics
+* Upload Video Assignments
+* Track Progress
+* View Feedback
+* Access Public Library
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Teacher Panel
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+* Create Learning Topics
+* Assign Topics to Students
+* Review Student Submissions
+* Approve Submitted Work
+* Manage Educational Activities
+
+### Public Library
+
+* Browse Available Educational Topics
+* Access Shared Learning Resources
+
+### UI/UX
+
+* Responsive Design
+* RTL (Persian) Support
+* Modern Dashboard Layout
+* Dark Mode Ready
+* Tailwind CSS Styling
+* Vazirmatn Typography
+
+---
+
+## Tech Stack
+
+### Frontend
+
+* React 19
+* TypeScript
+* Vite
+* React Router
+
+### Backend
+
+* Firebase Authentication
+* Cloud Firestore
+
+### Styling
+
+* Tailwind CSS v4
+* Vazirmatn Font
+
+---
+
+## Project Structure
+
+src/
+
+├── components/
+
+├── context/
+
+├── pages/
+
+├── routes/
+
+├── services/
+
+├── App.tsx
+
+└── main.tsx
+
+---
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/SamaZohari/Guilan-LMS.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Enter the project:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cd Guilan-LMS
 ```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run development server:
+
+```bash
+npm run dev
+```
+
+Build production version:
+
+```bash
+npm run build
+```
+
+---
+
+## Environment Variables
+
+Create a `.env` file and add your Firebase credentials:
+
+```env
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+```
+
+---
+
+## License
+
+This project is currently private and proprietary.
+
+All rights reserved.
+
+No part of this project may be copied, redistributed, modified, or used without explicit permission from the author.
+
+---
+
+## Author
+
+Developed by
+
+**Sama Zohari**
+
+2026
