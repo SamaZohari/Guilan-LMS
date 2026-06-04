@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #ffffff;
+  --foreground: #020617;
+}
+
+.dark {
+  --background: #020617;
+  --foreground: #ffffff;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  direction: rtl;
+  font-family: Vazirmatn, sans-serif;
+  background: var(--background);
+  color: var(--foreground);
+}
