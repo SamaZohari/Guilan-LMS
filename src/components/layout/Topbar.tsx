@@ -1,73 +1,97 @@
-import { useAuth } from "../../context/AuthContext";
+import {
+  useAuth,
+} from "../../context/AuthContext";
+
+import {
+  useTheme,
+} from "../../context/ThemeContext";
 
 export default function Topbar() {
-  const { role, user } =
+  const { role } =
     useAuth();
 
+  const {
+    theme,
+    toggleTheme,
+  } = useTheme();
+
   return (
-    <header
+    <div
       className="
       h-20
-      px-8
-      flex
-      items-center
-      justify-between
       border-b
       border-slate-200
       dark:border-slate-800
 
       bg-white
       dark:bg-slate-950
+
+      flex
+      items-center
+      justify-between
+
+      px-8
       "
     >
       <div>
-        <h2 className="text-2xl font-bold">
+        <h2
+          className="
+          text-2xl
+          font-bold
+          "
+        >
           {role === "teacher"
             ? "پنل استاد"
             : "پنل دانشجو"}
         </h2>
 
-        <p className="text-sm text-slate-500">
-          سامانه مدیریت آموزش
+        <p
+          className="
+          text-sm
+          text-slate-500
+          "
+        >
+          Guilan LMS
         </p>
       </div>
 
-      <div className="flex items-center gap-4">
-
+      <div
+        className="
+        flex
+        items-center
+        gap-4
+        "
+      >
         <button
+          onClick={
+            toggleTheme
+          }
           className="
-          w-10
-          h-10
+          px-4
+          py-2
           rounded-xl
+
           bg-slate-200
           dark:bg-slate-800
+
+          hover:scale-105
+          transition
           "
         >
-          🌙
+          {theme === "dark"
+            ? "☀️"
+            : "🌙"}
         </button>
-
-        <div className="text-right">
-          <p className="font-medium">
-            {user?.displayName ||
-              "کاربر"}
-          </p>
-
-          <p className="text-xs text-slate-500">
-            {user?.email}
-          </p>
-        </div>
 
         <div
           className="
-          w-12
-          h-12
-          rounded-2xl
-          bg-gradient-to-br
-          from-indigo-500
-          to-purple-500
+          w-10
+          h-10
+          rounded-full
+          bg-indigo-500
           "
         />
       </div>
-    </header>
+    </div>
   );
 }

@@ -52,7 +52,11 @@ export default function Register() {
 
           <div className="flex justify-center">
             <div className="w-72 h-72 bg-white/10 backdrop-blur-3xl rounded-3xl flex items-center justify-center border border-white/20">
-              <span className="text-9xl">🎓</span>
+              <img
+                src="https://r0.image2url.com/uploads/938c2baf9331c3fd_compressed_0729b43a161fae73.webp"
+                alt="Hamyar Logo"
+                className="rounded-2xl object-contain"
+              />
             </div>
           </div>
 

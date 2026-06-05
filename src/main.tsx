@@ -7,20 +7,22 @@ import "./index.css";
 import "@fontsource/vazirmatn/400.css";
 import "@fontsource/vazirmatn/700.css";
 
-import { AuthProvider } from "./context/AuthContext";
+import {
+  AuthProvider,
+} from "./context/AuthContext";
+
+import {
+  ThemeProvider,
+} from "./context/ThemeContext";
 
 ReactDOM.createRoot(
   document.getElementById("root")!
 ).render(
   <React.StrictMode>
-    <AuthProvider>
-      <div
-        style={{
-          fontFamily: "Vazirmatn",
-        }}
-      >
+    <ThemeProvider>
+      <AuthProvider>
         <App />
-      </div>
-    </AuthProvider>
+      </AuthProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );

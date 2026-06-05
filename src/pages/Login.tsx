@@ -91,7 +91,11 @@ export default function Login() {
 
           <div className="flex justify-center">
             <div className="w-72 h-72 bg-white/10 backdrop-blur-3xl rounded-3xl flex items-center justify-center border border-white/20">
-              <span className="text-9xl">🎓</span>
+              <img
+                src="https://r0.image2url.com/uploads/938c2baf9331c3fd_compressed_0729b43a161fae73.webp"
+                alt="Hamyar Logo"
+                className="rounded-2xl object-contain"
+              />
             </div>
           </div>
 
@@ -105,7 +109,7 @@ export default function Login() {
           <div className="mb-12">
             <h2 className="text-3xl font-bold text-gray-900">ورود به حساب کاربری</h2>
             <p className="text-gray-600 mt-3 text-lg">
-              خوش آمدید! لطفاً برای ادامه وارد شوید.
+              خوش آمدید! لطفا برای ادامه وارد شوید.
             </p>
           </div>
 
@@ -141,9 +145,14 @@ export default function Login() {
               {loading ? "در حال ورود..." : "ورود به راهیار"}
             </button>
           </div>
-
+          <button
+            onClick={() => navigate("/library")}
+            className="mt-4 text-blue-300 hover:underline"
+          >
+            ورود به پرتال عمومی به عنوان میهمان
+          </button>
           <div className="mt-8 text-center">
-            <a href="/register" className="text-indigo-600 hover:underline">
+            <a href="/register" className="text-semibold text-indigo-600 hover:underline">
               حساب کاربری ندارید؟ ثبت‌نام کنید.
             </a>
           </div>
