@@ -52,3 +52,14 @@ export const approveSubmission =
 
     return response.json();
   };
+
+
+  export const getSubmissions =
+  async () => {
+    const response =
+      await fetch(
+        `${API_URL}/submissions/`
+      );
+
+    return response.json();
+  };

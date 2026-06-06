@@ -68,9 +68,11 @@ class LoginView(APIView):
 class StudentListView(
     ListAPIView
 ):
-    serializer_class = UserSerializer
+    serializer_class = RegisterSerializer
 
     def get_queryset(self):
         return User.objects.filter(
             role="student"
         )
+    
+

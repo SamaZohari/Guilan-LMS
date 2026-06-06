@@ -12,8 +12,7 @@ type UserType = {
   role: string;
 };
 
-const AuthContext =
-  createContext<any>(null);
+const AuthContext = createContext<any>(null);
 
 export const AuthProvider = ({
   children,
@@ -21,9 +20,7 @@ export const AuthProvider = ({
   children: React.ReactNode;
 }) => {
   const [user, setUser] =
-    useState<UserType | null>(
-      null
-    );
+    useState<UserType | null>(null);
 
   const [role, setRole] =
     useState("");
@@ -33,9 +30,7 @@ export const AuthProvider = ({
 
   useEffect(() => {
     const storedUser =
-      localStorage.getItem(
-        "user"
-      );
+      localStorage.getItem("user");
 
     if (storedUser) {
       const parsed =
@@ -48,10 +43,18 @@ export const AuthProvider = ({
     setLoading(false);
   }, []);
 
-  const logout = () => {
-    localStorage.removeItem(
-      "user"
+  const login = (userData: UserType) => {
+    localStorage.setItem(
+      "user",
+      JSON.stringify(userData)
     );
+
+    setUser(userData);
+    setRole(userData.role);
+  };
+
+  const logout = () => {
+    localStorage.removeItem("user");
 
     setUser(null);
     setRole("");
@@ -63,6 +66,7 @@ export const AuthProvider = ({
         user,
         role,
         loading,
+        login,
         logout,
       }}
     >

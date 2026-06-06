@@ -1,29 +1,31 @@
 import API_URL from "./api";
 
-export const createTopic =
-  async (
-    title: string,
-    assigned_to: number
-  ) => {
-    const response =
-      await fetch(
-        `${API_URL}/topics/`,
-        {
-          method: "POST",
+export const getTopics = async () => {
+  const response = await fetch(
+    `${API_URL}/topics/`
+  );
 
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
+  return response.json();
+};
 
-          body: JSON.stringify({
-            title,
-            assigned_to,
-            status: "pending",
-            progress: 0,
-          }),
-        }
-      );
+export const createTopic = async (
+  title: string,
+  assigned_to: number
+) => {
+  const response = await fetch(
+    `${API_URL}/topics/`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type":
+          "application/json",
+      },
+      body: JSON.stringify({
+        title,
+        assigned_to,
+      }),
+    }
+  );
 
-    return response.json();
-  };
+  return response.json();
+};

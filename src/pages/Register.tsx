@@ -55,7 +55,7 @@ export default function Register() {
     }
 
     alert(
-      "ثبت نام موفق بود"
+      "ثبت نام با موفقیت انجام شد."
     );
 
     navigate("/login");
@@ -65,6 +65,13 @@ export default function Register() {
     setLoading(false);
   }
 };
+
+  console.log({
+  full_name: name,
+  email,
+  password,
+  role,
+});
 
   return (
     <div 

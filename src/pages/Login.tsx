@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API_URL from "../services/api";
+import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
+  const navigate = useNavigate();;
+  const { login } = useAuth()
 
+  
   const handleLogin = async () => {
   if (!email || !password) {
     alert("ایمیل و رمز عبور را وارد کنید");
@@ -43,10 +46,8 @@ export default function Login() {
       );
     }
 
-    localStorage.setItem(
-      "user",
-      JSON.stringify(data)
-    );
+    login(data);
+
 
     if (
       data.role === "teacher"
@@ -60,6 +61,7 @@ export default function Login() {
   } finally {
     setLoading(false);
   }
+
 };
 
 
