@@ -5,21 +5,14 @@ import {
   useState,
 } from "react";
 
-import { onAuthStateChanged } from "firebase/auth";
-import type { User } from "firebase/auth";
+type UserType = {
+  id: number;
+  full_name: string;
+  email: string;
+  role: string;
+};
 
-import {
-  doc,
-  getDoc,
-} from "firebase/firestore";
-
-import {
-  auth,
-  db,
-} from "../services/firebase";
-
-const AuthContext =
-  createContext<any>(null);
+const AuthContext = createContext<any>(null);
 
 export const AuthProvider = ({
   children,
@@ -27,7 +20,7 @@ export const AuthProvider = ({
   children: React.ReactNode;
 }) => {
   const [user, setUser] =
-    useState<User | null>(null);
+    useState<UserType | null>(null);
 
   const [role, setRole] =
     useState("");
@@ -36,43 +29,36 @@ export const AuthProvider = ({
     useState(true);
 
   useEffect(() => {
-    const unsubscribe =
-      onAuthStateChanged(
-        auth,
-        async (firebaseUser) => {
-          if (firebaseUser) {
-            const snapshot =
-              await getDoc(
-                doc(
-                  db,
-                  "users",
-                  firebaseUser.uid
-                )
-              );
+    const storedUser =
+      localStorage.getItem("user");
 
-            if (
-              snapshot.exists()
-            ) {
-              setRole(
-                snapshot.data()
-                  .role
-              );
-            }
+    if (storedUser) {
+      const parsed =
+        JSON.parse(storedUser);
 
-            setUser(
-              firebaseUser
-            );
-          } else {
-            setUser(null);
-            setRole("");
-          }
+      setUser(parsed);
+      setRole(parsed.role);
+    }
 
-          setLoading(false);
-        }
-      );
-
-    return unsubscribe;
+    setLoading(false);
   }, []);
+
+  const login = (userData: UserType) => {
+    localStorage.setItem(
+      "user",
+      JSON.stringify(userData)
+    );
+
+    setUser(userData);
+    setRole(userData.role);
+  };
+
+  const logout = () => {
+    localStorage.removeItem("user");
+
+    setUser(null);
+    setRole("");
+  };
 
   return (
     <AuthContext.Provider
@@ -80,6 +66,8 @@ export const AuthProvider = ({
         user,
         role,
         loading,
+        login,
+        logout,
       }}
     >
       {children}
@@ -87,8 +75,5 @@ export const AuthProvider = ({
   );
 };
 
-export const useAuth =
-  () =>
-    useContext(
-      AuthContext
-    );
+export const useAuth = () =>
+  useContext(AuthContext);

@@ -1,21 +1,11 @@
-import { db } from "./firebase";
-import {
-  collection,
-  getDocs,
-} from "firebase/firestore";
+import API_URL from "./api";
 
-export const getStudents = async () => {
-  const snapshot = await getDocs(
-    collection(db, "users")
-  );
+export const getStudents =
+  async () => {
+    const response =
+      await fetch(
+        `${API_URL}/users/students/`
+      );
 
-  return snapshot.docs
-    .map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }))
-    .filter(
-      (user: any) =>
-        user.role === "student"
-    );
-};
+    return response.json();
+  };

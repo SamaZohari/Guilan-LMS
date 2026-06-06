@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  collection,
-  getDocs,
-} from "firebase/firestore";
-
-import { db } from "../services/firebase";
+import { getTopics } from "../services/topic";
 
 export default function PublicLibrary() {
   const [topics, setTopics] =
@@ -14,27 +9,17 @@ export default function PublicLibrary() {
     useState(true);
 
   useEffect(() => {
-    const fetch = async () => {
-      const snap =
-        await getDocs(
-          collection(
-            db,
-            "topics"
-          )
-        );
+    const fetchTopicsData =
+      async () => {
+        const data =
+          await getTopics();
 
-      setTopics(
-        snap.docs
-          .map((d) => ({
-            id: d.id,
-            ...d.data(),
-          }))
-      );
+        setTopics(data);
 
-      setLoading(false);
-    };
+        setLoading(false);
+      };
 
-    fetch();
+    fetchTopicsData();
   }, []);
 
   return (

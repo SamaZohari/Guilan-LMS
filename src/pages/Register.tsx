@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { registerUser } from "../services/auth";
-import { createUserDocument } from "../services/firestore";
+import API_URL from "../services/api";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -13,26 +12,66 @@ export default function Register() {
   const navigate = useNavigate();
 
   const handleRegister = async () => {
-    if (!name || !email || !password) {
-      alert("لطفا تمام فیلدها را پر کنید");
-      return;
+  if (
+    !name ||
+    !email ||
+    !password
+  ) {
+    alert(
+      "لطفا تمام فیلدها را پر کنید"
+    );
+
+    return;
+  }
+
+  setLoading(true);
+
+  try {
+    const response =
+      await fetch(
+        `${API_URL}/users/register/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+          body: JSON.stringify({
+            full_name: name,
+            email,
+            password,
+            role,
+          }),
+        }
+      );
+
+    const data =
+      await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        JSON.stringify(data)
+      );
     }
 
-    setLoading(true);
-    try {
-      const result = await registerUser(email, password);
-      
-      await createUserDocument(result.user.uid, name, email, role);
+    alert(
+      "ثبت نام با موفقیت انجام شد."
+    );
 
-      alert("ثبت‌نام با موفقیت انجام شد 🎉");
-      navigate("/login", { replace: true });
-    } catch (err: any) {
-      console.error(err);
-      alert(err?.message || "ثبت‌نام ناموفق بود");
-    } finally {
-      setLoading(false);
-    }
-  };
+    navigate("/login");
+  } catch (err: any) {
+    alert(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
+  console.log({
+  full_name: name,
+  email,
+  password,
+  role,
+});
 
   return (
     <div 
@@ -106,7 +145,7 @@ export default function Register() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="نام کامل شما"
-                className="w-full px-6 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-lg"
+                className="w-full px-6 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-lg text-gray-950"
               />
             </div>
 
@@ -117,7 +156,7 @@ export default function Register() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="example@university.ac.ir"
-                className="w-full px-6 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-lg"
+                className="w-full px-6 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-lg text-gray-950"
               />
             </div>
 
@@ -128,7 +167,7 @@ export default function Register() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-6 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-lg"
+                className="w-full px-6 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-lg text-gray-950"
               />
             </div>
 
