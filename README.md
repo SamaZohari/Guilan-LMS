@@ -1,54 +1,67 @@
+Got it — then your README must reflect the architecture shift properly (this is important for future hiring/portfolio credibility too).
+
+Here’s the **updated version (Firebase removed, Django backend added):**
+
+---
+
 # Guilan LMS (Rahyar)
 
-A modern Learning Management System (LMS) designed for medical and crisis-learning environments.
+A modern Learning Management System (LMS) designed for medical education and crisis-based learning environments.
 
-Built with React, TypeScript, Vite, Firebase, and Tailwind CSS.
-
----
-
-## Features
-
-### Authentication
-
-* User Registration
-* User Login
-* Role-Based Access Control
-* Protected Routes
-* Firebase Authentication
-
-### Student Panel
-
-* View Assigned Topics
-* Upload Video Assignments
-* Track Progress
-* View Feedback
-* Access Public Library
-
-### Teacher Panel
-
-* Create Learning Topics
-* Assign Topics to Students
-* Review Student Submissions
-* Approve Submitted Work
-* Manage Educational Activities
-
-### Public Library
-
-* Browse Available Educational Topics
-* Access Shared Learning Resources
-
-### UI/UX
-
-* Responsive Design
-* RTL (Persian) Support
-* Modern Dashboard Layout
-* Dark Mode Ready
-* Tailwind CSS Styling
-* Vazirmatn Typography
+Built with **React, TypeScript, Vite, Django, Django REST Framework (DRF), and Tailwind CSS**.
 
 ---
 
-## Tech Stack
+## 🚀 Features
+
+### 🔐 Authentication & Authorization
+
+* User Registration & Login (Django Authentication)
+* Email-based Login System
+* Role-Based Access Control (Student / Teacher)
+* Protected Routes (Frontend)
+* REST API Authentication (Backend)
+
+---
+
+### 🎓 Student Panel
+
+* View assigned learning topics
+* Submit video assignments
+* Track submission status
+* View approvals and feedback
+* Access public learning library
+
+---
+
+### 👨‍🏫 Teacher Panel
+
+* Create and assign topics to students
+* Review student submissions
+* Approve submitted work
+* Manage learning activities
+
+---
+
+### 📚 Public Library
+
+* Browse available educational topics
+* Access shared learning materials
+
+---
+
+### 🎨 UI / UX
+
+* Fully responsive design
+* RTL (Persian) support
+* Modern dashboard interface
+* Dark mode ready
+* Tailwind CSS styling
+* Vazirmatn typography
+
+---
+
+## 🧰 Tech Stack
 
 ### Frontend
 
@@ -59,8 +72,10 @@ Built with React, TypeScript, Vite, Firebase, and Tailwind CSS.
 
 ### Backend
 
-* Firebase Authentication
-* Cloud Firestore
+* Django
+* Django REST Framework (DRF)
+* SQLite (development) / PostgreSQL (production-ready)
+* Django Authentication System
 
 ### Styling
 
@@ -69,78 +84,74 @@ Built with React, TypeScript, Vite, Firebase, and Tailwind CSS.
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 
+```text
 src/
-
 ├── components/
-
 ├── context/
-
 ├── pages/
-
 ├── routes/
-
 ├── services/
-
 ├── App.tsx
-
 └── main.tsx
+```
 
 ---
 
-## Installation
+## ⚙️ Installation
 
-Clone the repository:
+### Clone repository
 
 ```bash
 git clone https://github.com/SamaZohari/Guilan-LMS.git
 ```
 
-Enter the project:
+### Frontend setup
 
 ```bash
 cd Guilan-LMS
-```
-
-Install dependencies:
-
-```bash
 npm install
-```
-
-Run development server:
-
-```bash
 npm run dev
 ```
 
-Build production version:
+---
+
+### Backend setup (Django)
 
 ```bash
-npm run build
+cd backend
+python -m venv venv
+venv\Scripts\activate   # Windows
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
 ```
 
 ---
 
-## Environment Variables
+## 🔑 Environment Variables
 
-Create a `.env` file and add your Firebase credentials:
+### Frontend `.env`
 
 ```env
-VITE_FIREBASE_API_KEY=
-VITE_FIREBASE_AUTH_DOMAIN=
-VITE_FIREBASE_PROJECT_ID=
-VITE_FIREBASE_STORAGE_BUCKET=
-VITE_FIREBASE_MESSAGING_SENDER_ID=
-VITE_FIREBASE_APP_ID=
+VITE_API_URL=http://127.0.0.1:8000/api
 ```
 
 ---
 
-## License
+## 📌 Notes
 
-This project is currently private and proprietary.
+* Firebase has been completely removed from the project.
+* All authentication and data management is handled by Django + DRF.
+* Frontend communicates with backend via REST API.
+* Role-based access is handled on both backend and frontend.
+
+---
+
+## 📄 License
+
+This project is currently **private and proprietary**.
 
 All rights reserved.
 
@@ -148,10 +159,7 @@ No part of this project may be copied, redistributed, modified, or used without 
 
 ---
 
-## Author
-
-Developed by
+## 👤 Author
 
 **Sama Zohari**
-
 2026
