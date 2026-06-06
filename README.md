@@ -12,9 +12,9 @@ Built with **React, TypeScript, Vite, Django, Django REST Framework (DRF), and T
 
 ---
 
-## 🚀 Features
+## Features
 
-### 🔐 Authentication & Authorization
+### Authentication & Authorization
 
 * User Registration & Login (Django Authentication)
 * Email-based Login System
@@ -24,7 +24,7 @@ Built with **React, TypeScript, Vite, Django, Django REST Framework (DRF), and T
 
 ---
 
-### 🎓 Student Panel
+### Student Panel
 
 * View assigned learning topics
 * Submit video assignments
@@ -34,7 +34,7 @@ Built with **React, TypeScript, Vite, Django, Django REST Framework (DRF), and T
 
 ---
 
-### 👨‍🏫 Teacher Panel
+### Teacher Panel
 
 * Create and assign topics to students
 * Review student submissions
@@ -43,14 +43,14 @@ Built with **React, TypeScript, Vite, Django, Django REST Framework (DRF), and T
 
 ---
 
-### 📚 Public Library
+### Public Library
 
 * Browse available educational topics
 * Access shared learning materials
 
 ---
 
-### 🎨 UI / UX
+### UI / UX
 
 * Fully responsive design
 * RTL (Persian) support
@@ -61,7 +61,7 @@ Built with **React, TypeScript, Vite, Django, Django REST Framework (DRF), and T
 
 ---
 
-## 🧰 Tech Stack
+## Tech Stack
 
 ### Frontend
 
@@ -84,7 +84,7 @@ Built with **React, TypeScript, Vite, Django, Django REST Framework (DRF), and T
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```text
 src/
@@ -130,7 +130,7 @@ python manage.py runserver
 
 ---
 
-## 🔑 Environment Variables
+## Environment Variables
 
 ### Frontend `.env`
 
@@ -159,7 +159,7 @@ No part of this project may be copied, redistributed, modified, or used without 
 
 ---
 
-## 👤 Author
+## Author
 
 **Sama Zohari**
 2026
