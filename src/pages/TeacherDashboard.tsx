@@ -1,25 +1,19 @@
 import { useEffect, useState } from "react";
-
-import {
-  collection,
-  getDocs,
-} from "firebase/firestore";
-
-import {
-  db,
-} from "../services/firebase";
-
 import {
   createTopic,
+  getTopics,
 } from "../services/topic";
+
+import {
+  getSubmissions,
+  approveSubmission,
+} from "../services/submission";
+
 
 import {
   getStudents,
 } from "../services/user";
 
-import {
-  approveSubmission,
-} from "../services/submission";
 
 import DashboardLayout
 from "../components/layout/DashboardLayout";
@@ -49,58 +43,29 @@ export default function TeacherDashboard() {
   const [title, setTitle] =
     useState("");
 
-  const [selectedStudent,
+  const [
+    selectedStudent,
     setSelectedStudent] =
-    useState("");
+    useState<number | null>(
+    null
+  );
 
   const fetchTopics =
-    async () => {
-      const snapshot =
-        await getDocs(
-          collection(
-            db,
-            "topics"
-          )
-        );
+  async () => {
+    const data =
+      await getTopics();
 
-      setTopics(
-        snapshot.docs.map(
-          (doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          })
-        )
-      );
-    };
+    setTopics(data);
+  };
 
+  
   const fetchSubmissions =
-    async () => {
-      const snapshot =
-        await getDocs(
-          collection(
-            db,
-            "submissions"
-          )
-        );
+  async () => {
+    const data =
+      await getSubmissions();
 
-      setSubmissions(
-        snapshot.docs.map(
-          (doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          })
-        )
-      );
-    };
-
-  useEffect(() => {
-    fetchTopics();
-    fetchSubmissions();
-
-    getStudents().then(
-      setStudents
-    );
-  }, []);
+    setSubmissions(data);
+  };
 
   const handleCreate =
     async () => {
@@ -119,7 +84,7 @@ export default function TeacherDashboard() {
       );
 
       setTitle("");
-      setSelectedStudent("");
+      setSelectedStudent(null);
 
       fetchTopics();
     };
@@ -177,10 +142,10 @@ export default function TeacherDashboard() {
           />
 
           <select
-            value={selectedStudent}
+            value={selectedStudent ?? ""}
             onChange={(e) =>
               setSelectedStudent(
-                e.target.value
+                Number(e.target.value)
               )
             }
             className="w-full p-3 rounded-xl border"
@@ -192,12 +157,12 @@ export default function TeacherDashboard() {
             {students.map(
               (student) => (
                 <option
-                  key={student.uid}
+                  key={student.id}
                   value={
-                    student.uid
+                    student.id
                   }
                 >
-                  {student.name}
+                  {student.full_name}
                 </option>
               )
             )}

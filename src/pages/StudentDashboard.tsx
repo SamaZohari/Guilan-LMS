@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
-import {
-  collection,
-  getDocs,
-} from "firebase/firestore";
 
-import { db } from "../services/firebase";
 import { submitVideo } from "../services/submission";
+import { getTopics } from "../services/topic";
 
 import { useAuth } from "../context/AuthContext";
 
@@ -21,16 +17,11 @@ export default function StudentDashboard() {
   useEffect(() => {
     const fetchTopics = async () => {
       try {
-        const snap = await getDocs(
-          collection(db, "topics")
-        );
+        const data = await getTopics();
 
-        setTopics(
-          snap.docs.map((d) => ({
-            id: d.id,
-            ...d.data(),
-          }))
-        );
+        setTopics(data);
+      } catch (err) {
+        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -53,9 +44,6 @@ export default function StudentDashboard() {
   return (
     <DashboardLayout items={studentItems}>
       <div className="p-8">
-
-        {/* Header */}
-
         <div className="mb-10">
           <h1 className="text-4xl font-bold">
             داشبورد دانشجو
@@ -66,10 +54,7 @@ export default function StudentDashboard() {
           </p>
         </div>
 
-        {/* Stats */}
-
         <div className="grid md:grid-cols-3 gap-5 mb-10">
-
           <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 shadow">
             <p className="text-slate-500">
               کل مأموریت‌ها
@@ -89,8 +74,7 @@ export default function StudentDashboard() {
               {
                 topics.filter(
                   (t) =>
-                    t.status ===
-                    "pending"
+                    t.status === "pending"
                 ).length
               }
             </h2>
@@ -105,26 +89,19 @@ export default function StudentDashboard() {
               {
                 topics.filter(
                   (t) =>
-                    t.status ===
-                    "approved"
+                    t.status === "approved"
                 ).length
               }
             </h2>
           </div>
-
         </div>
-
-        {/* Upload */}
 
         <UploadCard
           topics={topics}
           user={user}
         />
 
-        {/* Topics */}
-
         <div className="mt-10">
-
           <h2 className="text-2xl font-bold mb-5">
             مأموریت‌های من
           </h2>
@@ -145,9 +122,7 @@ export default function StudentDashboard() {
               )}
             </div>
           )}
-
         </div>
-
       </div>
     </DashboardLayout>
   );
@@ -156,7 +131,10 @@ export default function StudentDashboard() {
 function UploadCard({
   topics,
   user,
-}: any) {
+}: {
+  topics: any[];
+  user: any;
+}) {
   const [videoUrl, setVideoUrl] =
     useState("");
 
@@ -177,20 +155,19 @@ function UploadCard({
         return;
       }
 
-      try {
-        const topic =
-          topics.find(
-            (t: any) =>
-              t.id ===
-              selectedTopic
-          );
+      if (!user) {
+        alert(
+          "ابتدا وارد حساب شوید"
+        );
 
+        return;
+      }
+
+      try {
         await submitVideo(
-          selectedTopic,
-          topic?.title || "",
-          videoUrl,
-          user.uid,
-          user.displayName || ""
+          Number(selectedTopic),
+          user.id,
+          videoUrl
         );
 
         alert(
@@ -202,12 +179,15 @@ function UploadCard({
 
       } catch (err) {
         console.error(err);
+
+        alert(
+          "خطا در ارسال تمرین"
+        );
       }
     };
 
   return (
     <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 shadow">
-
       <h2 className="text-2xl font-bold mb-5">
         ارسال تمرین
       </h2>
@@ -254,7 +234,6 @@ function UploadCard({
       >
         ارسال
       </button>
-
     </div>
   );
 }
