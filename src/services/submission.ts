@@ -1,46 +1,54 @@
-import { db } from "./firebase";
-import { doc, updateDoc } from "firebase/firestore";
-
-import {
-  addDoc,
-  collection
-} from "firebase/firestore";
+import API_URL from "./api";
 
 export const submitVideo =
   async (
-    topicId: string,
-    topicTitle: string,
-    videoUrl: string,
-    studentId: string,
-    studentName: string
+    topic: number,
+    student: number,
+    video_url: string
   ) => {
-    return addDoc(
-      collection(
-        db,
-        "submissions"
-      ),
-      {
-        topicId,
-        topicTitle,
+    const response =
+      await fetch(
+        `${API_URL}/submissions/`,
+        {
+          method: "POST",
 
-        studentId,
-        studentName,
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
 
-        videoUrl,
+          body: JSON.stringify({
+            topic,
+            student,
+            video_url,
+            status: "pending",
+          }),
+        }
+      );
 
-        status: "pending",
-
-        createdAt:
-          new Date(),
-      }
-    );
+    return response.json();
   };
-  
-export const approveSubmission = async (id: string) => {
-  await updateDoc(
-    doc(db, "submissions", id),
-    {
-      status: "approved",
-    }
-  );
-};
+
+export const approveSubmission =
+  async (
+    id: number
+  ) => {
+    const response =
+      await fetch(
+        `${API_URL}/submissions/${id}/`,
+        {
+          method: "PATCH",
+
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+
+          body: JSON.stringify({
+            status: "approved",
+          }),
+        }
+      );
+
+    return response.json();
+  };

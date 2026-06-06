@@ -49,9 +49,12 @@ export default function TeacherDashboard() {
   const [title, setTitle] =
     useState("");
 
-  const [selectedStudent,
+  const [
+    selectedStudent,
     setSelectedStudent] =
-    useState("");
+    useState<number | null>(
+    null
+  );
 
   const fetchTopics =
     async () => {
@@ -119,7 +122,7 @@ export default function TeacherDashboard() {
       );
 
       setTitle("");
-      setSelectedStudent("");
+      setSelectedStudent(null);
 
       fetchTopics();
     };
@@ -177,10 +180,10 @@ export default function TeacherDashboard() {
           />
 
           <select
-            value={selectedStudent}
+            value={selectedStudent ?? ""}
             onChange={(e) =>
               setSelectedStudent(
-                e.target.value
+                Number(e.target.value)
               )
             }
             className="w-full p-3 rounded-xl border"
@@ -192,12 +195,12 @@ export default function TeacherDashboard() {
             {students.map(
               (student) => (
                 <option
-                  key={student.uid}
+                  key={student.id}
                   value={
-                    student.uid
+                    student.id
                   }
                 >
-                  {student.name}
+                  {student.full_name}
                 </option>
               )
             )}

@@ -5,18 +5,12 @@ import {
   useState,
 } from "react";
 
-import { onAuthStateChanged } from "firebase/auth";
-import type { User } from "firebase/auth";
-
-import {
-  doc,
-  getDoc,
-} from "firebase/firestore";
-
-import {
-  auth,
-  db,
-} from "../services/firebase";
+type UserType = {
+  id: number;
+  full_name: string;
+  email: string;
+  role: string;
+};
 
 const AuthContext =
   createContext<any>(null);
@@ -27,7 +21,9 @@ export const AuthProvider = ({
   children: React.ReactNode;
 }) => {
   const [user, setUser] =
-    useState<User | null>(null);
+    useState<UserType | null>(
+      null
+    );
 
   const [role, setRole] =
     useState("");
@@ -36,43 +32,30 @@ export const AuthProvider = ({
     useState(true);
 
   useEffect(() => {
-    const unsubscribe =
-      onAuthStateChanged(
-        auth,
-        async (firebaseUser) => {
-          if (firebaseUser) {
-            const snapshot =
-              await getDoc(
-                doc(
-                  db,
-                  "users",
-                  firebaseUser.uid
-                )
-              );
-
-            if (
-              snapshot.exists()
-            ) {
-              setRole(
-                snapshot.data()
-                  .role
-              );
-            }
-
-            setUser(
-              firebaseUser
-            );
-          } else {
-            setUser(null);
-            setRole("");
-          }
-
-          setLoading(false);
-        }
+    const storedUser =
+      localStorage.getItem(
+        "user"
       );
 
-    return unsubscribe;
+    if (storedUser) {
+      const parsed =
+        JSON.parse(storedUser);
+
+      setUser(parsed);
+      setRole(parsed.role);
+    }
+
+    setLoading(false);
   }, []);
+
+  const logout = () => {
+    localStorage.removeItem(
+      "user"
+    );
+
+    setUser(null);
+    setRole("");
+  };
 
   return (
     <AuthContext.Provider
@@ -80,6 +63,7 @@ export const AuthProvider = ({
         user,
         role,
         loading,
+        logout,
       }}
     >
       {children}
@@ -87,8 +71,5 @@ export const AuthProvider = ({
   );
 };
 
-export const useAuth =
-  () =>
-    useContext(
-      AuthContext
-    );
+export const useAuth = () =>
+  useContext(AuthContext);

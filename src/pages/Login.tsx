@@ -1,15 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../services/auth";
-import {
-  doc,
-  getDoc,
-} from "firebase/firestore";
-
-import {
-  db,
-} from "../services/firebase";
-
+import API_URL from "../services/api";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -18,60 +9,59 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  const handleLogin =
-  async () => {
-    if (
-      !email ||
-      !password
-    ) {
-      alert(
-        "ایمیل و رمز عبور را وارد کنید"
-      );
+  const handleLogin = async () => {
+  if (!email || !password) {
+    alert("ایمیل و رمز عبور را وارد کنید");
+    return;
+  }
 
-      return;
-    }
+  setLoading(true);
 
-    setLoading(true);
-
-    try {
-      const result =
-        await loginUser(
+  try {
+    const response = await fetch(
+      `${API_URL}/users/login/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type":
+            "application/json",
+        },
+        body: JSON.stringify({
           email,
-          password
-        );
-
-      const userDoc =
-        await getDoc(
-          doc(
-            db,
-            "users",
-            result.user.uid
-          )
-        );
-
-      const userData =
-        userDoc.data();
-
-      if (
-        userData?.role ===
-        "teacher"
-      ) {
-        navigate(
-          "/teacher"
-        );
-      } else {
-        navigate(
-          "/student"
-        );
+          password,
+        }),
       }
-    } catch (err: any) {
-      alert(
-        err.message
+    );
+
+    const data =
+      await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.error ||
+        "خطا در ورود"
       );
-    } finally {
-      setLoading(false);
     }
-  };
+
+    localStorage.setItem(
+      "user",
+      JSON.stringify(data)
+    );
+
+    if (
+      data.role === "teacher"
+    ) {
+      navigate("/teacher");
+    } else {
+      navigate("/student");
+    }
+  } catch (err: any) {
+    alert(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div 
@@ -80,7 +70,7 @@ export default function Login() {
     >
       <div className="w-full max-w-5xl bg-white rounded-3xl shadow-2xl overflow-hidden flex">
         
-        {/* Left Side - Branding / Illustration */}
+        {/* Branding / Illustration */}
         <div className="hidden lg:flex w-5/12 bg-gradient-to-br from-indigo-700 to-purple-700 p-12 flex-col justify-between">
           <div>
             <h1 className="text-white text-family text-6xl font-bold">راهیار</h1>
@@ -104,7 +94,7 @@ export default function Login() {
           </div>
         </div>
 
-        {/* Right Side - Login Form*/}
+        {/* Login Form*/}
         <div className="w-full lg:w-7/12 p-12 lg:p-16 flex flex-col">
           <div className="mb-12">
             <h2 className="text-3xl font-bold text-gray-900">ورود به حساب کاربری</h2>
@@ -122,7 +112,7 @@ export default function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="example@university.ac.ir"
-                className="w-full px-6 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-lg"
+                className="w-full px-6 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-lg text-gray-950"
               />
             </div>
 
@@ -133,7 +123,7 @@ export default function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-6 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-lg"
+                className="w-full px-6 py-4 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-indigo-500 text-lg text-gray-950"
               />
             </div>
 

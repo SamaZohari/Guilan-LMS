@@ -1,11 +1,29 @@
-import { db } from "./firebase";
-import { addDoc, collection } from "firebase/firestore";
+import API_URL from "./api";
 
-export const createTopic = async (title: string, assignedTo: string) => {
-  return addDoc(collection(db, "topics"), {
-    title,
-    assignedTo,
-    status: "pending",
-    progress: 0,
-  });
-};
+export const createTopic =
+  async (
+    title: string,
+    assigned_to: number
+  ) => {
+    const response =
+      await fetch(
+        `${API_URL}/topics/`,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json",
+          },
+
+          body: JSON.stringify({
+            title,
+            assigned_to,
+            status: "pending",
+            progress: 0,
+          }),
+        }
+      );
+
+    return response.json();
+  };

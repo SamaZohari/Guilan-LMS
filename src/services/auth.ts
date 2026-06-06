@@ -1,29 +1,49 @@
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import API_URL from "./api";
 
-import { auth } from "./firebase";
+export const registerUser = async (
+  full_name: string,
+  email: string,
+  password: string,
+  role: string
+) => {
+  const response = await fetch(
+    `${API_URL}/users/register/`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type":
+          "application/json",
+      },
+      body: JSON.stringify({
+        full_name,
+        email,
+        password,
+        role,
+      }),
+    }
+  );
 
-export const registerUser = (
+  return response.json();
+};
+
+export const loginUser = async (
   email: string,
   password: string
 ) => {
-  return createUserWithEmailAndPassword(
-    auth,
-    email,
-    password
+  const response = await fetch(
+    `${API_URL}/users/login/`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type":
+          "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    }
   );
-};
 
-export const loginUser = (
-  email: string,
-  password: string
-) => {
-  return signInWithEmailAndPassword(
-    auth,
-    email,
-    password
-  );
+  return response.json();
 };
-

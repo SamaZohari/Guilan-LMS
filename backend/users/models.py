@@ -8,8 +8,21 @@ class User(AbstractUser):
         ("student", "Student"),
     )
 
+    full_name = models.CharField(
+        max_length=255,
+        blank=True,
+        default=""
+    )   
+
     role = models.CharField(
         max_length=20,
         choices=ROLE_CHOICES,
         default="student",
     )
+
+    email = models.EmailField(
+        unique=True
+    )
+
+    def __str__(self):
+        return self.full_name
