@@ -1,9 +1,3 @@
-Got it — then your README must reflect the architecture shift properly (this is important for future hiring/portfolio credibility too).
-
-Here’s the **updated version (Firebase removed, Django backend added):**
-
----
-
 # Guilan LMS (Rahyar)
 
 A modern Learning Management System (LMS) designed for medical education and crisis-based learning environments.
